@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d0b16">
+  <meta name="description" content="Die offizielle StalliFibel: Regeln, Befehle und alle 50 Stallimon von TheStallionaire92.">
+  <title>StalliFibel · TheStallionaire92</title>
+  <link rel="stylesheet" href="styles.css?v=060">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#start" data-route="start" aria-label="StalliFibel Startseite">
+      <img src="assets/hufeisensiegel-v2.png" alt="">
+      <span><b>STALLI</b>FIBEL<small>THESTALLIONAIRE92</small></span>
+    </a>
+    <button id="menuToggle" class="menu-toggle" aria-label="Menü öffnen" aria-expanded="false">☰</button>
+    <nav id="mainNav" aria-label="Hauptnavigation">
+      <a href="#start" data-route="start">So funktioniert’s</a>
+      <a href="#fibel" data-route="fibel">Stallimon-Fibel</a>
+      <a href="#mein-stallimon" data-route="mein-stallimon">Mein Stallimon</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="route-start" class="route is-active" data-page="start">
+      <div class="hero shell">
+        <div class="hero-copy">
+          <span class="kicker">EIN INTERAKTIVES STREAM-ABENTEUER</span>
+          <h1>Finde sie. Kämpfe mit ihnen. <em>Binde ihre Seele.</em></h1>
+          <p>Stallimon leben im Stream von TheStallionaire92. Wähle deinen Starter, werde zufällig zu Wildbegegnungen gerufen und stelle ein Team zusammen, das wirklich dir gehört.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#fibel" data-route="fibel">Alle 50 entdecken</a>
+            <a class="button secondary" href="#commands">Befehle ansehen</a>
+          </div>
+          <div class="hero-facts">
+            <span><b>50</b> Stallimon</span><span><b>12</b> Typen</span><span><b>70</b> Max-Level</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+          <img class="hero-mon hero-mon-a" src="assets/funkenkitz-cutout.png" alt="">
+          <img class="hero-mon hero-mon-b" src="assets/kiesknips-cutout.png" alt="">
+          <img class="hero-seal" src="assets/hufeisensiegel-v2.png" alt="">
+        </div>
+      </div>
+
+      <section class="section shell" id="ablauf">
+        <div class="section-heading"><span>DEINE REISE</span><h2>In vier Schritten zum Hüter</h2></div>
+        <div class="steps">
+          <article><i>01</i><h3>Starter wählen</h3><p>Mit <code>!starter 1</code>, <code>2</code> oder <code>3</code> beginnt deine Reise auf Level 5.</p></article>
+          <article><i>02</i><h3>Begegnung annehmen</h3><p>Wirst du ausgewählt, hast du 30 Sekunden für <code>!annehmen</code>.</p></article>
+          <article><i>03</i><h3>Kämpfen & binden</h3><p>Schwäche das wilde Stallimon und nutze ein Hufeisensiegel mit <code>!binden</code>.</p></article>
+          <article><i>04</i><h3>Team formen</h3><p>Drei Stallimon kämpfen aktiv, zehn reisen im Hufeisen, weitere ruhen auf der Seelenweide.</p></article>
+        </div>
+      </section>
+
+      <section class="section command-section" id="commands">
+        <div class="shell">
+          <div class="section-heading"><span>CHATBEFEHLE</span><h2>Alles, was du im Chat brauchst</h2><p>Groß- und Kleinschreibung spielen keine Rolle.</p></div>
+          <div id="commandGrid" class="command-grid"></div>
+        </div>
+      </section>
+
+      <section class="section shell split-story">
+        <div><span class="kicker">REISEHUFEISEN & SEELENWEIDE</span><h2>Sammeln ohne Platzangst</h2><p>Du kannst jede der 50 Arten einmal an dich binden. Zehn Seelensteine sitzen sichtbar in den Kerbungen deines Reisehufeisens. Davon bestimmst du drei als aktives Kampfteam. Bis zu 40 weitere Stallimon ruhen sicher auf deiner Seelenweide.</p></div>
+        <div class="storage-visual"><img src="assets/hufeisensiegel-v2.png" alt="Goldenes Reisehufeisen"><span>10</span><b>REISEPLÄTZE</b><small>+ 40 Plätze auf der Seelenweide</small></div>
+      </section>
+    </section>
+
+    <section id="route-fibel" class="route" data-page="fibel">
+      <div class="page-hero shell">
+        <span class="kicker">#001 BIS #050</span>
+        <h1>Die Stallimon-Fibel</h1>
+        <p>Alle bekannten Formen, Fähigkeiten, Werte, Attacken und Entwicklungsbedingungen.</p>
+      </div>
+      <div class="fibel-toolbar shell">
+        <label class="search"><span>⌕</span><input id="dexSearch" type="search" placeholder="Name, Nummer, Typ oder Fähigkeit …" autocomplete="off"></label>
+        <select id="typeFilter" aria-label="Nach Typ filtern"><option value="">Alle Typen</option></select>
+        <select id="rarityFilter" aria-label="Nach Seltenheit filtern"><option value="">Alle Seltenheiten</option></select>
+        <button id="resetFilters" class="filter-reset">Filter löschen</button>
+        <span id="dexCount" class="dex-count">50 EINTRÄGE</span>
+      </div>
+      <div id="dexGrid" class="dex-grid shell" aria-live="polite"></div>
+      <div id="emptyDex" class="empty-state shell" hidden>Keine Stallimon passen zu deiner Suche.</div>
+    </section>
+
+    <section id="route-mein-stallimon" class="route" data-page="mein-stallimon">
+      <div class="page-hero shell profile-hero">
+        <span class="kicker">DEIN HÜTERPROFIL</span>
+        <h1>Mein Stallimon</h1>
+        <p>Verbinde dich mit Twitch und sieh, welchen Stallimon du begegnet bist, welche du gebunden hast und wer gerade mit dir reist.</p>
+      </div>
+      <div id="profileLoggedOut" class="profile-gate shell">
+        <div class="seal-pulse"><img src="assets/hufeisensiegel-v2.png" alt=""></div>
+        <span class="kicker">SICHERE TWITCH-VERKNÜPFUNG</span>
+        <h2>Öffne dein persönliches Reisehufeisen</h2>
+        <p>Die Seite liest keine Chatdaten und fragt niemals nach deinem Passwort. Twitch bestätigt nur deine Identität; deine Stallimon-Daten werden vom Streamer.bot synchronisiert.</p>
+        <button id="twitchLogin" class="button twitch">Mit Twitch verbinden</button>
+        <p id="profileSetupHint" class="setup-hint" hidden>Der persönliche Bereich ist im Paket fertig vorbereitet. Der Streamer muss zuerst den sicheren Profil-Dienst aktivieren.</p>
+      </div>
+      <div id="profileLoading" class="profile-gate shell" hidden><div class="loader"></div><p>Dein Reisehufeisen wird geöffnet …</p></div>
+      <div id="profileError" class="profile-gate shell" hidden><h2>Profil nicht erreichbar</h2><p id="profileErrorText"></p><button id="profileRetry" class="button secondary">Erneut versuchen</button></div>
+      <div id="profileDashboard" class="profile-dashboard shell" hidden>
+        <div class="profile-topbar"><div><span class="kicker">VERBUNDENER HÜTER</span><h2 id="profileName">Hüter</h2></div><button id="profileLogout" class="text-button">Abmelden</button></div>
+        <div id="profileStats" class="profile-stats"></div>
+        <section><div class="mini-heading"><h3>Aktives Team</h3><span>3 KAMPFPLÄTZE</span></div><div id="activeTeam" class="profile-mon-grid"></div></section>
+        <section><div class="mini-heading"><h3>Reisehufeisen</h3><span>10 SEELENSTEINE</span></div><div id="carriedTeam" class="profile-mon-grid compact"></div></section>
+        <section><div class="mini-heading"><h3>Seelenweide</h3><span>40 RUHEPLÄTZE</span></div><div id="pastureTeam" class="profile-mon-grid compact"></div></section>
+        <section><div class="mini-heading"><h3>Entdeckungsfortschritt</h3><span id="discoveryLabel"></span></div><div id="discoveryGrid" class="discovery-grid"></div></section>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="dexDialog" class="dex-dialog">
+    <button id="closeDialog" class="dialog-close" aria-label="Schließen">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
+  <footer><div class="shell"><span>STALLIMON · LIVE-BETA V0.6.0</span><p>Ein eigenständiges Streamprojekt von TheStallionaire92.</p><a href="#start" data-route="start">Nach oben ↑</a></div></footer>
+  <script src="config.js?v=060"></script>
+  <script src="catalog.js?v=060"></script>
+  <script src="app.js?v=060"></script>
+</body>
+</html>
