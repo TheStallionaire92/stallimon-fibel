@@ -117,6 +117,29 @@
     ["profileLoggedOut", "profileLoading", "profileError", "profileDashboard"].forEach((name) => { $(name).hidden = name !== id; });
   }
 
+  function speciesKeySet(values) {
+    const result = new Set();
+    (Array.isArray(values) ? values : []).forEach((value) => {
+      const raw = String(value ?? "").trim().toLowerCase();
+      const byNumber = catalog.find((mon) => mon.id === raw.padStart(3, "0"));
+      const mon = byKey[raw] || byNumber;
+      if (mon) result.add(mon.key);
+    });
+    return result;
+  }
+
+  function renderDiscoveryGrid(encountered, bound) {
+    $("discoveryGrid").innerHTML = catalog.map((mon) => {
+      const isBound = bound.has(mon.key);
+      const isSeen = isBound || encountered.has(mon.key);
+      const state = isBound ? "bound" : isSeen ? "seen" : "unknown";
+      const stateLabel = isBound ? "gebunden" : isSeen ? "begegnet, noch nicht gebunden" : "noch nicht begegnet";
+      const title = isSeen ? `#${mon.id} ${mon.name} · ${stateLabel}` : `#${mon.id} · Unentdeckt`;
+      const art = isSeen ? `<img loading="lazy" decoding="async" src="${mon.image}" alt="">` : "";
+      return `<article class="discovery ${state}" title="${title}" aria-label="${title}">${art}<span class="discovery-number">#${mon.id}</span><span class="discovery-status">${isBound ? "GEBUNDEN" : isSeen ? "BEGEGNET" : "UNENTDECKT"}</span></article>`;
+    }).join("");
+  }
+
   async function loadProfile() {
     if (!config.apiBaseUrl) {
       setProfileView("profileLoggedOut");
@@ -150,16 +173,17 @@
     const activeIds = get(profile, "ActiveTeam", "activeTeam") || [];
     const carried = carriedIds.map((id) => byId[id]).filter(Boolean);
     const pasture = all.filter((mon) => !carriedIds.includes(get(mon, "InstanceId", "instanceId")));
-    const encountered = get(profile, "EncounteredSpecies", "encounteredSpecies") || [];
-    const bound = get(profile, "BoundSpecies", "boundSpecies") || [];
+    const encountered = speciesKeySet(get(profile, "EncounteredSpecies", "encounteredSpecies") || []);
+    const bound = speciesKeySet(get(profile, "BoundSpecies", "boundSpecies") || []);
+    bound.forEach((key) => encountered.add(key));
     $("profileName").textContent = payload.user?.displayName || payload.user?.login || "Hüter";
-    const stats = [["Gebunden", `${bound.length}/50`], ["Begegnet", `${encountered.length}/50`], ["Siegel", get(profile, "Seals", "seals") || 0], ["Trainer-Siege", get(profile, "TrainerWins", "trainerWins") || 0], ["Streamserie", get(profile, "StreamStreak", "streamStreak") || 0]];
+    const stats = [["Gebunden", `${bound.size}/50`], ["Begegnet", `${encountered.size}/50`], ["Siegel", get(profile, "Seals", "seals") || 0], ["Trainer-Siege", get(profile, "TrainerWins", "trainerWins") || 0], ["Streamserie", get(profile, "StreamStreak", "streamStreak") || 0]];
     $("profileStats").innerHTML = stats.map(([label, value]) => `<div class="profile-stat"><b>${value}</b><span>${label.toUpperCase()}</span></div>`).join("");
     renderProfileMons($("activeTeam"), activeIds.map((id) => byId[id]).filter(Boolean), 3);
     renderProfileMons($("carriedTeam"), carried, 10);
     renderProfileMons($("pastureTeam"), pasture, 0);
-    $("discoveryLabel").textContent = `${encountered.length}/50 BEGEGNET · ${bound.length}/50 GEBUNDEN`;
-    $("discoveryGrid").innerHTML = catalog.map((mon) => `<div class="discovery ${encountered.includes(mon.key) ? "seen" : ""} ${bound.includes(mon.key) ? "bound" : ""}" title="#${mon.id} ${mon.name}">#${mon.id}</div>`).join("");
+    $("discoveryLabel").textContent = `${encountered.size}/50 BEGEGNET · ${bound.size}/50 GEBUNDEN`;
+    renderDiscoveryGrid(encountered, bound);
   }
 
   function renderProfileMons(container, mons, minimumSlots) {
