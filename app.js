@@ -4,8 +4,8 @@
   const config = window.STALLIMON_SITE_CONFIG || {};
   const typeColors = { Feuer: "#ff6a2a", Wasser: "#29b8ff", Pflanze: "#62d46f", Luft: "#baf2ff", Stein: "#c49a70", Blitz: "#54ddff", Geist: "#a86cff", Normal: "#c5c5cf", Metall: "#9eb3c2", Licht: "#ffe078", Schatten: "#74508f", Eis: "#9deaff" };
   const commands = [
-    ["!starter 1–3", "Wählt einmalig Funkenkitz, Rinnwiesel oder Knospro als Starter."],
-    ["!stallimons", "Zeigt dein aktives Stallimon, Level, XP, Team, Lager und Siegel."],
+    ["!starter / !starter 1–3", "Registriert dich sofort als Hüter und lässt dich Funkenkitz, Rinnwiesel oder Knospro wählen."],
+    ["!stallimon / !stallimons", "Zeigt dein aktives Stallimon, Level, XP, Team, Lager und Siegel."],
     ["!sammlung", "Zeigt die zehn Stallimon in deinem Reisehufeisen."],
     ["!seelenweide [Seite]", "Zeigt Stallimon, die gerade nicht mit dir reisen."],
     ["!mitnehmen WEIDE PLATZ", "Tauscht einen Seelenweide-Platz mit einem Reiseplatz."],
@@ -24,10 +24,10 @@
     ["!aufgeben", "Gibt einen laufenden Trainerkampf auf."],
     ["!trainerstats", "Zeigt Siege, Niederlagen und Stallmeister-Siege."],
     ["!stallmeister", "Startet mit drei Level-70-Stallimon die schwierigste Prüfung."],
-    ["!siegel / !siegelkauf [Menge]", "Zeigt oder kauft Hufeisensiegel mit Hufeisen."],
+    ["!siegel / !siegelkauf [1–10]", "Zeigt den Vorrat oder kauft Siegel für jeweils 5.000 Hufeisen."],
     ["!stallifibel [Nummer]", "Zeigt einen kurzen Fibel-Eintrag direkt im Chat."],
     ["!fibel", "Postet den Link zu dieser Webseite."],
-    ["!profilsync", "Überträgt dein Profil in den persönlichen Fibel-Bereich, wenn aktiviert."]
+    ["!profilsync", "Aktualisiert dein Profil sofort manuell; normalerweise läuft die Synchronisierung automatisch."]
   ];
 
   let catalog = [];
@@ -131,7 +131,7 @@
       if (response.status === 401) { localStorage.removeItem("stallimonSession"); setProfileView("profileLoggedOut"); return; }
       if (!response.ok) throw new Error("Der Profil-Dienst antwortet gerade nicht.");
       const payload = await response.json();
-      if (!payload.profile) throw new Error("Dein Twitch-Konto ist verbunden, aber dein Profil wurde noch nicht synchronisiert. Schreibe im Stream !profilsync.");
+      if (!payload.profile) throw new Error("Dein Twitch-Konto ist verbunden, aber dein Profil wurde noch nicht synchronisiert. Warte kurz oder schreibe im Stream einmal !profilsync.");
       renderProfile(payload);
       setProfileView("profileDashboard");
     } catch (error) {

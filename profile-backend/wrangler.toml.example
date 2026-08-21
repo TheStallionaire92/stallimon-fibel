@@ -1,0 +1,16 @@
+name = "stallimon-profile"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "stallimon-profile"
+database_id = "HIER_DIE_D1_DATABASE_ID_EINTRAGEN"
+
+[vars]
+SITE_ORIGIN = "https://thestallionaire92.github.io"
+TWITCH_CLIENT_ID = "HIER_DIE_TWITCH_CLIENT_ID_EINTRAGEN"
+TWITCH_REDIRECT_URI = "https://stallimon-profile.DEIN-SUBDOMAIN.workers.dev/auth/callback"
+
+# TWITCH_CLIENT_SECRET und STALLIMON_SYNC_SECRET niemals hier eintragen.
+# Beide werden mit `npx wrangler secret put NAME` sicher gespeichert.
